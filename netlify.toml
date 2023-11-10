@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"  # Ajusta esto según tus comandos de construcción
+  publish = "dist"  # Ajusta esto según tu directorio de salida
+
+[context.production.environment]
+  NODE_ENV = "production"
