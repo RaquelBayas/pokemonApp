@@ -2,13 +2,12 @@ let arrayPokemons = [];
 
 const form = document.querySelector("form");
 const input = form.querySelector('input[name="pokemonName"]');
-console.log("input:", input);
-form.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    searchPokemonAsyncAwait(input.value.toLowerCase())
-    //searchPokemon(input.value.toLowerCase());
-    event.preventDefault();
-  }
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  console.log(input.value)
+  searchPokemonAsyncAwait(input.value.toLowerCase());
+  input.value = '';
 });
 
 async function searchPokemonAsyncAwait(input) {
@@ -27,8 +26,7 @@ async function searchPokemonAsyncAwait(input) {
     } */
     arrayPokemons.push(data);
     printPokemons();
-    console.log(data);
-  } catch(error) {
+  } catch (error) {
     console.log(error.error);
   }
 }
@@ -39,13 +37,10 @@ function searchPokemon(name) {
   console.log(pokemon_url);
   fetch(pokemon_url)
     .then((response) => {
-      console.log(response)
       return response.json();
     })
     .then((data) => {
       arrayPokemons.push(data);
-      console.log(arrayPokemons);
-      //setInfo(data);
       printPokemons();
     });
 }
@@ -56,7 +51,7 @@ function setInfo(data) {
   const name = document.getElementById("name");
   const nameFirstLetterUp =
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
-  name.innerHTML = nameFirstLetterUp + " - Nº" + data.order;
+  (name.innerHTML = nameFirstLetterUp + " - Nº"), data.order;
 
   const height = document.getElementById("height");
   height.innerHTML = "Altura: " + data.height;
@@ -66,10 +61,9 @@ function setInfo(data) {
   const typePokemon = document.getElementById("type");
   data.types.forEach((type) => {
     typePokemon.innerHTML =
-      "Tipo: " +
-      (type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)) +
-      "\n";
-    console.log(type.type.name);
+      "Tipo: "(
+        type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)
+      ) + "\n";
   });
   const infoPokemon = document.querySelector(".infoPokemon");
   infoPokemon.style.visibility = "visible";
@@ -77,31 +71,33 @@ function setInfo(data) {
 }
 
 function printPokemons() {
-  const newElement = document.createElement('div');
-  newElement.className = 'visible h-full p-4 m-5 border-2 border-white border-solid infoPokemon';
-  
-  arrayPokemons.forEach((pokemon,index) => {
-    let typesNames = ''
-   pokemon.types.forEach((type) => { 
-    typesNames = type.type.name
-  });
-    
-newElement.innerHTML = `
-  
-        <img src="${pokemon.sprites["front_default"]}" alt="" id="sprite" class="m-auto">
-        <h1 id="name" class="text-center">${pokemon.name} - Nº + ${pokemon.order}</h1>
+  const newElement = document.createElement("div");
+  newElement.className =
+    "visible h-full p-4 m-5 border-2 border-white border-solid infoPokemon";
+
+  arrayPokemons.forEach((pokemon, index) => {
+    let typesNames = "";
+    pokemon.types.forEach((type) => {
+      typesNames = type.type.name;
+    });
+
+    newElement.innerHTML = `
+        <img src="${
+          pokemon.sprites["front_default"]
+        }" alt="" id="sprite" class="m-auto">
+        <h1 id="name" class="text-center text-white text-xl">${
+          pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
+        } - Nº ${pokemon.order}</h1>
         <div class="items-center">
           <ul class="text-white gap-2">
-            <li id="height">Altura: ${pokemon.height}</li>
-            <li id="weight">Peso: ${pokemon.weight}</li>
+            <li id="height">Altura: ${pokemon.height} cm</li>
+            <li id="weight">Peso: ${pokemon.weight} </li>
             <li id="type">Tipo: ${typesNames}</li>
           </ul>
         </div>
-  `
-  })
-  
-  
-  const content = document.querySelector('.pokemon_card');
+  `;
+  });
+
+  const content = document.querySelector(".pokemon_card");
   content.appendChild(newElement);
-  
 }

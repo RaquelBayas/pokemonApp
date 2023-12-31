@@ -2,7 +2,7 @@ const valorApi = 'fire';
 
 const mappedTypes = {
     fire: 'Fuego',
-    electric: 'Eléctricp',
+    electric: 'Eléctrico',
     grass: 'Planta'
 }
 
