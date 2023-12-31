@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"  # Ajusta esto según tus comandos de construcción
+  command = "npx tailwindcss -i ./style.css -o ./dist/output.css && npm run build"
   publish = "dist"  # Ajusta esto según tu directorio de salida
 
 [context.production.environment]
